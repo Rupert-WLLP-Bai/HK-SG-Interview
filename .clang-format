@@ -1,0 +1,8 @@
+---
+Language:        Cpp
+# 使用Tab作为缩进
+UseTab:          Never
+# 设置Tab的宽度为4个空格等价
+TabWidth:        4
+# 缩进宽度也设置为4个空格等价
+IndentWidth:     4

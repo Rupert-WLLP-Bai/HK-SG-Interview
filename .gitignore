@@ -1,2 +1,4 @@
 build/
 CMakeFiles/
+.cache/
+reformat_logs/

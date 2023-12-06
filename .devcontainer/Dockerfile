@@ -1,18 +1,37 @@
-FROM mcr.microsoft.com/devcontainers/cpp:1-ubuntu-22.04
+# Dockerfile
 
-ARG REINSTALL_CMAKE_VERSION_FROM_SOURCE="3.22.2"
+FROM ubuntu:latest
 
-# Optionally install the cmake for vcpkg
-COPY ./reinstall-cmake.sh /tmp/
+# 替换为中国科技大学的APT源
+RUN sed -i 's|ports.ubuntu.com|mirrors.ustc.edu.cn/ubuntu-ports|g' /etc/apt/sources.list
 
-RUN if [ "${REINSTALL_CMAKE_VERSION_FROM_SOURCE}" != "none" ]; then \
-        chmod +x /tmp/reinstall-cmake.sh && /tmp/reinstall-cmake.sh ${REINSTALL_CMAKE_VERSION_FROM_SOURCE}; \
-    fi \
-    && rm -f /tmp/reinstall-cmake.sh
+# Install basic development tools
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    curl \
+    wget \
+    axel \
+    cmake \
+    clang \
+    clang-tools \
+    clang-format \
+    clangd-12 \
+    clang-tidy \
+    gdb \
+    git \
+    zsh \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
-# [Optional] Uncomment this section to install additional vcpkg ports.
-# RUN su vscode -c "${VCPKG_ROOT}/vcpkg install <your-port-name-here>"
+RUN update-alternatives --install /usr/bin/clangd clangd /usr/bin/clangd-12 100
 
-# [Optional] Uncomment this section to install additional packages.
-# RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
-#     && apt-get -y install --no-install-recommends <your-package-list-here>
+# Set up Oh My Zsh
+RUN git clone https://mirrors.tuna.tsinghua.edu.cn/git/ohmyzsh.git &&\
+    cd ohmyzsh/tools &&\
+    REMOTE=https://mirrors.tuna.tsinghua.edu.cn/git/ohmyzsh.git sh install.sh
+
+# Set up the default shell to Zsh
+RUN chsh -s /usr/bin/zsh
+
+# Expose port for potential web server development
+EXPOSE 8080
