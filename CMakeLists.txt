@@ -11,3 +11,5 @@ add_executable(pointer_example pointer_example.cc)
 add_executable(reverse_string reverse_string.cc)
 add_executable(is_special is_special.cc)
 add_executable(perfect_number perfect_number.cc)
+
+add_executable(is_palind_rome is_palind_rome.cc)

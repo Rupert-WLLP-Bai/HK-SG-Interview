@@ -34,7 +34,7 @@ def process_file(filename):
     with open(log_file_path, "w") as log_file:
         # 执行clang-tidy
         subprocess.run(
-            ["clang-tidy", filename, "-fix", "--", "-std=c++11"],
+            ["clang-tidy", filename, "-fix", "--", "-std=c++17"],
             stdout=log_file,
             stderr=subprocess.STDOUT
         )
